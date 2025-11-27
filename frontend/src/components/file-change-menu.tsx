@@ -79,14 +79,10 @@ export const FileChangeMenu: React.FC<FileChangeMenuProps> = ({
   return (
     <>
       <DropdownMenu>
-<<<<<<< HEAD
-        <DropdownMenuTrigger className="cursor-pointer rounded-sm p-1 hover:bg-zinc-200" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
-=======
         <DropdownMenuTrigger
           className="cursor-pointer rounded-sm p-1 hover:bg-zinc-200"
           onClick={(e: React.MouseEvent) => e.stopPropagation()}
         >
->>>>>>> c35a8959124d8fbd9f9f1857fea7fd43c49abffd
           <EllipsisVertical size={isPage ? 20 : 16} />
         </DropdownMenuTrigger>
         <DropdownMenuContent side="bottom" align="end">

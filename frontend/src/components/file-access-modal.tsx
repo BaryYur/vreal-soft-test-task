@@ -97,14 +97,10 @@ export const FileAccessModal: React.FC<FileAccessModalProps> = ({
 
   return (
     <AlertDialog open={isOpen}>
-<<<<<<< HEAD
-      <AlertDialogContent className="w-[460px]" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
-=======
       <AlertDialogContent
         className="w-[460px]"
         onClick={(e: React.MouseEvent) => e.stopPropagation()}
       >
->>>>>>> c35a8959124d8fbd9f9f1857fea7fd43c49abffd
         <AlertDialogHeader>
           <AlertDialogTitle>File access</AlertDialogTitle>
           <AlertDialogDescription>
