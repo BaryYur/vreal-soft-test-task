@@ -1,0 +1,8 @@
+{
+  "plugins": [],
+  "trailingComma": "all",
+  "semi": true,
+  "singleQuote": false,
+  "jsxSingleQuote": false,
+  "endOfLine": "lf"
+}

@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id          String      @id @default(uuid())
+  name        String
+  email       String      @unique
+  password    String
+  createdAt   DateTime    @default(now())
+  files       File[]      @relation("UserFiles")
+  directories Directory[] @relation("UserDirectories")
+
+  @@map("user")
+}
+
+model Directory {
+  id        String      @id @default(cuid())
+  ownerId   String
+  name      String
+  parentId  String?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  owner     User        @relation("UserDirectories", fields: [ownerId], references: [id], onDelete: Cascade)
+  parent    Directory?  @relation("DirectoryChildren", fields: [parentId], references: [id], onDelete: Cascade)
+  children  Directory[] @relation("DirectoryChildren")
+  files     File[]      @relation("DirectoryFiles")
+
+  @@map("directory")
+}
+
+enum FileVisibility {
+  public
+  private
+}
+
+model File {
+  id          String           @id @default(cuid())
+  ownerId     String
+  name        String
+  s3Key       String?
+  createdAt   DateTime         @default(now())
+  visibility  FileVisibility   @default(private)
+  directoryId String?
+  access      UserFileAccess[] @relation("UserFileAccess")
+  updatedAt   DateTime         @updatedAt
+  owner       User             @relation("UserFiles", fields: [ownerId], references: [id], onDelete: Cascade)
+  directory   Directory?       @relation("DirectoryFiles", fields: [directoryId], references: [id], onDelete: Cascade)
+
+  @@map("file")
+}
+
+enum FileAccess {
+  change
+  watch
+}
+
+model UserFileAccess {
+  id     String     @id @default(cuid())
+  email  String
+  access FileAccess @default(change)
+
+  fileId String
+  file   File   @relation("UserFileAccess", fields: [fileId], references: [id], onDelete: Cascade)
+
+  @@map("user_file_access")
+}
