@@ -28,6 +28,7 @@ Before you start, make sure you have the following installed:
 Using **npm**:
 
 ```bash
+# Before installing dependencies make sure that you have .env file in /backend directory
 # 1. Install dependencies
 npm install or npm install --force
 
