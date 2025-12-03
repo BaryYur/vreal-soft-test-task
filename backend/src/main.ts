@@ -1,6 +1,7 @@
 import { NestFactory } from "@nestjs/core";
 import { ConfigService } from "@nestjs/config";
 import { ValidationPipe } from "@nestjs/common";
+import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
 
 import { AppModule } from "./app.module";
 
@@ -30,6 +31,39 @@ async function bootstrap() {
       errorHttpStatusCode: 400,
     }),
   );
+
+  const config = new DocumentBuilder()
+    .setTitle("Vreal Soft Test Task API")
+    .setDescription(
+      "API documentation for Vreal Soft Test Task - File Storage System",
+    )
+    .setVersion("1.0")
+    .addCookieAuth("accessToken", {
+      type: "http",
+      in: "Cookie",
+      scheme: "Bearer",
+    })
+    .addBearerAuth(
+      {
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT",
+        name: "JWT",
+        description: "Enter JWT token",
+        in: "header",
+      },
+      "JWT-auth",
+    )
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup("api/docs", app, document, {
+    swaggerOptions: {
+      persistAuthorization: true,
+      tagsSorter: "alpha",
+      operationsSorter: "alpha",
+    },
+  });
 
   await app.listen(PORT);
 }
